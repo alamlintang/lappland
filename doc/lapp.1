@@ -1,0 +1,100 @@
+.TH LAPP 1 2020-12-10 "lapp 0.1.0" "General Commands Manual"
+
+.SH NAME
+lapp \- diceware generator
+
+.SH SYNOPSIS
+.B lapp
+.RB [ \-c
+.IR counter ]
+.RB [ \-w
+.IR word_count ]
+.IR username
+.IR sitename
+
+.SH DESCRIPTION
+.B Lappland
+is a dead simple diceware generator used to create a unique yet strong diceware
+passphrase in a reproducible manner.
+
+.B Lappland
+requires an user name and a website name. In practice however these two can be
+literally anything, as long as they are a valid utf-8 string. They can even be
+an empty string.
+
+.B Lappland
+reads the master password from the standard input. Just like the user name and
+the site name, it can be an empty string. But unlike those two, it doesn't have
+to be a valid utf-8 string. In fact, it is possible to use a binary file as a
+password.
+
+.B Lappland
+sends the generated diceware passphrase to the standard output. If redirected,
+the trailing newline will not be appended.
+
+.SH OPTIONS
+.PP
+.TP
+\fB-c, --counter=\fIvalue\fR
+set the counter value (1..255) (default: 1)
+.TP
+\fB-w, --words=\fIvalue\fR
+set the number of words for the resulting generated passphrase (5..10)
+(default: 6)
+.TP
+\fB-h, --help\fR
+show a quick summary of all options
+.TP
+\fB--version\fR
+show this application's version number
+
+.SH ENVIRONMENT
+.PP
+.TP
+\fBLAPPLAND_COUNTER\fR
+overrides the default counter value
+.TP
+\fBLAPPLAND_WORD_COUNT\fR
+overrides the default word count value
+.PP
+These environment variables can in turn be overridden by the argument options.
+
+.SH EXAMPLE
+.PP
+Basic usage:
+
+.nf
+.RS
+echo -n "mypassword" | lapp "John Doe" example.com
+.RE
+.fi
+
+.PP
+Generate a second password for the same website:
+
+.nf
+.RS
+echo -n "mypassword" | lapp --counter 2 "John Doe" example.com
+.RE
+.fi
+
+.PP
+Generate a ten words long diceware passphrase, using a binary file as a
+password:
+
+.nf
+.RS
+lapp -w10 "John Doe" example.com < /path/to/binary.exe
+.RE
+.fi
+
+.PP
+The generated passphrase is copied onto xclip, without any newline character
+attached:
+
+.nf
+.RS
+echo -n "texaslove123" | lapp Lappland penguin.gov.ri | xclip -selection \
+clipboard
+.RE
+.fi

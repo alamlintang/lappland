@@ -1,0 +1,15 @@
+*
+!.gitignore
+!.gitmodules
+!.gitattributes
+
+!build.zig
+!README.rst
+!LICENSE
+
+!doc
+!doc/*.1
+!thirdparty
+!thirdparty/**
+!src
+!src/**
